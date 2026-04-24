@@ -9,12 +9,11 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# Install Base packages
-dnf5 -y install tmux podman
+# Niri and related programs
+dnf5 -y install niri
 
-dnf5 -y copr enable gmaglione/podman-bootc
-dnf5 -y install podman-bootc
-dnf5 -y copr disable gmaglione/podman-bootc
+# Noctalia shell, terra repo is pre configured but not enabled with bazzite
+dnf5 -y install --from-repo=terra noctalia-shell
 
 #### Example for enabling a System Unit File
 
