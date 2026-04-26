@@ -10,7 +10,8 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # Niri and related programs
-dnf5 -y install niri rofi wtype
+dnf5 -y install niri rofi wtype \
+    xdg-desktop-portal-gnome # screensharing
 
 # Noctalia shell, terra repo is pre configured but not enabled with bazzite
 dnf5 -y install --from-repo=terra noctalia-shell
