@@ -13,10 +13,10 @@ set -ouex pipefail
 dnf5 -y install --enable-repo=terra \
 	niri rofi wtype          `# niri and supporting programs` \
 	noctalia-shell           `# noctalia shell` \
-	xdg-desktop-portal-gnome `# screen-sharing` \
+	xdg-desktop-portal-gnome `# screen-sharing ` \
 	htop                     `# nice utilities`
 
 systemctl enable podman.socket
 
 # Cleanup for lint
-rm -fr /run/dnf
+rm -fr /run/dnf /var/lib/dnf
