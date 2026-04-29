@@ -9,14 +9,12 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# Niri and related programs
-dnf5 -y install niri rofi wtype \
-    xdg-desktop-portal-gnome # screensharing
 
-# Noctalia shell, terra repo is pre configured but not enabled with bazzite
-dnf5 -y install --from-repo=terra noctalia-shell
-
-#### Example for enabling a System Unit File
+dnf5 -y install --enable-repo=terra \
+	niri rofi wtype          `# niri and supporting programs` \
+	noctalia-shell           `# noctalia shell` \
+	xdg-desktop-portal-gnome `# screen-sharing` \
+	htop                     `# nice utilities`
 
 systemctl enable podman.socket
 
