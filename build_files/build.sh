@@ -14,7 +14,7 @@ dnf5 -y install --enable-repo=terra \
 	niri rofi wtype playerctl `# niri and supporting programs` \
 	noctalia-shell            `# noctalia shell` \
 	xdg-desktop-portal-gnome  `# screen-sharing ` \
-	htop                      `# nice utilities`
+	htop keepassxc            `# nice utilities`
 
 systemctl enable podman.socket
 
