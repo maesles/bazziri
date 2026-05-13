@@ -9,12 +9,15 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
-
 dnf5 -y install --enable-repo=terra \
 	niri rofi wtype playerctl `# niri and supporting programs` \
 	noctalia-shell            `# noctalia shell` \
 	xdg-desktop-portal-gnome  `# screen-sharing ` \
 	htop keepassxc            `# nice utilities`
+
+cp /ctx/99-vesktop-tmpfiles.conf /usr/lib/tmpfiles.d/
+curl -L -o vesktop.rpm https://vencord.dev/download/vesktop/amd64/rpm
+rpm -ivh --prefix=/usr/lib/vesktop ./vesktop.rpm
 
 systemctl enable podman.socket
 
