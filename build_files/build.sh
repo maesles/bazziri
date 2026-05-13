@@ -15,6 +15,20 @@ dnf5 -y install --enable-repo=terra \
 	xdg-desktop-portal-gnome  `# screen-sharing ` \
 	htop keepassxc            `# nice utilities`
 
+# cider
+rpm --import https://repo.cider.sh/RPM-GPG-KEY
+tee /etc/yum.repos.d/cider.repo << 'EOF'
+[cidercollective]
+name=Cider Collective Repository
+baseurl=https://repo.cider.sh/rpm/RPMS
+enabled=1
+gpgcheck=1
+gpgkey=https://repo.cider.sh/RPM-GPG-KEY
+EOF
+dnf5 -y makecache
+dnf5 -y install Cider
+
+# vesktop
 cp /ctx/99-vesktop-tmpfiles.conf /usr/lib/tmpfiles.d/
 curl -L -o vesktop.rpm https://vencord.dev/download/vesktop/amd64/rpm
 rpm -ivh --prefix=/usr/lib/vesktop ./vesktop.rpm
