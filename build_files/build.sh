@@ -9,15 +9,10 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
-dnf5 -y install --enable-repo=terra \
-	niri rofi wtype playerctl `# niri and supporting programs` \
-	noctalia-shell            `# noctalia shell` \
-	xdg-desktop-portal-gnome  `# screen-sharing ` \
-	htop keepassxc            `# nice utilities`
-
-# cider
-rpm --import https://repo.cider.sh/RPM-GPG-KEY
-tee /etc/yum.repos.d/cider.repo << 'EOF'
+# enable various repos
+sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/terra.repo # enable terra repo
+rpm --import https://repo.cider.sh/RPM-GPG-KEY # install cider repo key
+tee /etc/yum.repos.d/cider.repo << 'EOF' # install cider
 [cidercollective]
 name=Cider Collective Repository
 baseurl=https://repo.cider.sh/rpm/RPMS
@@ -26,12 +21,19 @@ gpgcheck=1
 gpgkey=https://repo.cider.sh/RPM-GPG-KEY
 EOF
 dnf5 -y makecache
-dnf5 -y install Cider
 
-# vesktop
-cp /ctx/99-vesktop-tmpfiles.conf /usr/lib/tmpfiles.d/
+# install packages
+dnf5 -y install \
+	niri rofi wtype playerctl `# niri and supporting programs` \
+	noctalia-shell            `# noctalia shell` \
+	xdg-desktop-portal-gnome  `# screen-sharing ` \
+	htop keepassxc            `# nice utilities` \
+	Cider                     `# music/cider`
+
+# vesktop (special handling needed since it installs in /opt normally)
 curl -L -o vesktop.rpm https://vencord.dev/download/vesktop/amd64/rpm
-rpm -ivh --prefix=/usr/lib/vesktop ./vesktop.rpm
+rpm -ivh --prefix=/usr/lib/vesktop ./vesktop.rpm      # install in special prefix
+cp /ctx/99-vesktop-tmpfiles.conf /usr/lib/tmpfiles.d/ # use tmpfiles to create symlinks to proper files in special prefix
 
 systemctl enable podman.socket
 
