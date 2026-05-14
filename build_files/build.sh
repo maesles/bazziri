@@ -35,6 +35,9 @@ curl -L -o vesktop.rpm https://vencord.dev/download/vesktop/amd64/rpm
 rpm -ivh --prefix=/usr/lib/vesktop ./vesktop.rpm      # install in special prefix
 cp /ctx/99-vesktop-tmpfiles.conf /usr/lib/tmpfiles.d/ # use tmpfiles to create symlinks to proper files in special prefix
 
+## fixup vesktop since the scripts hardcodes paths to /opt
+chmod 0755 /usr/lib/vesktop/opt/Vesktop/chrome-sandbox
+
 systemctl enable podman.socket
 
 # Cleanup for lint
