@@ -28,7 +28,8 @@ dnf5 -y install \
 	noctalia-shell            `# noctalia shell` \
 	xdg-desktop-portal-gnome  `# screen-sharing ` \
 	htop keepassxc            `# nice utilities` \
-	Cider                     `# music/cider`
+	Cider                     `# music/cider` \
+	@virtualization
 
 # vesktop (special handling needed since it installs in /opt normally)
 curl -L -o vesktop.rpm https://vencord.dev/download/vesktop/amd64/rpm
