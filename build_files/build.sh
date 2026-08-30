@@ -11,8 +11,8 @@ set -ouex pipefail
 
 # enable various repos
 sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/terra.repo # enable terra repo
-rpm --import https://repo.cider.sh/RPM-GPG-KEY # install cider repo key
-tee /etc/yum.repos.d/cider.repo << 'EOF' # install cider
+rpm --import https://repo.cider.sh/RPM-GPG-KEY              # install cider repo key
+tee /etc/yum.repos.d/cider.repo <<'EOF'                     # install cider
 [cidercollective]
 name=Cider Collective Repository
 baseurl=https://repo.cider.sh/rpm/RPMS
@@ -25,11 +25,11 @@ dnf5 -y makecache
 # install packages
 dnf5 -y install \
 	niri rofi wtype playerctl `# niri and supporting programs` \
-	noctalia-legacy           `# noctalia shell, legacy quickshell based` \
-	noctalia-nightly          `# noctalia shell, c++ rewrite` \
-	xdg-desktop-portal-gnome  `# screen-sharing ` \
-	htop keepassxc            `# nice utilities` \
-	Cider                     `# music/cider` \
+	noctalia-legacy `# noctalia shell, legacy quickshell based` \
+	noctalia-nightly `# noctalia shell, c++ rewrite` \
+	xdg-desktop-portal-gnome `# screen-sharing ` \
+	htop keepassxc `# nice utilities` \
+	Cider `# music/cider` \
 	@virtualization
 
 # vesktop (special handling needed since it installs in /opt normally)
