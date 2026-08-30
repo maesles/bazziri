@@ -76,12 +76,14 @@ jobs:
             ${DEFAULT_TAG}
 
       # This is optional, this provides smaller delta updates
-      - name: Rechunk with rpm-ostree
-        id: rechunk
-        run: |
-          just ostree-rechunk \
-            ${IMAGE_NAME} \
-            ${DEFAULT_TAG}
+      # Disabled as in my experience takes way too long (1h 15m and still running on gha)
+      #
+      # - name: Rechunk with rpm-ostree
+      #   id: rechunk
+      #   run: |
+      #     just ostree-rechunk \
+      #       ${IMAGE_NAME} \
+      #       ${DEFAULT_TAG}
 
       - name: Generate Build Tags
         id: gen-build-tags
