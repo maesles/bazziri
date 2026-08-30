@@ -25,7 +25,8 @@ dnf5 -y makecache
 # install packages
 dnf5 -y install \
 	niri rofi wtype playerctl `# niri and supporting programs` \
-	noctalia-shell            `# noctalia shell` \
+	noctalia-legacy           `# noctalia shell, legacy quickshell based` \
+	noctalia-nightly          `# noctalia shell, c++ rewrite` \
 	xdg-desktop-portal-gnome  `# screen-sharing ` \
 	htop keepassxc            `# nice utilities` \
 	Cider                     `# music/cider` \
