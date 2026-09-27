@@ -9,10 +9,6 @@ on:
 env:
   UPSTREAM_REPO: "https://github.com/ublue-os/image-template.git"
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -54,7 +50,7 @@ jobs:
       - name: Upsert pull request
         if: steps.sync_branch.outputs.has_changes == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           PR_EXISTS=$(gh pr list --head upstream-main --state open --json number -q '.[0].number')
 
