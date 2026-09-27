@@ -43,8 +43,10 @@ jobs:
 
           git checkout main
           if git diff --quiet main..upstream-main; then
+            echo "Changes present..."
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
+            echo "No changes, done."
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
 
