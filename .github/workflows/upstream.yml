@@ -42,7 +42,8 @@ jobs:
           git push origin upstream-main --force
 
           git checkout main
-          if git diff --quiet main..upstream-main; then
+          # Condition seems inverted but if checks for 0 and git diff emits 1 when there is a diff
+          if ! git diff --quiet main..upstream-main; then
             echo "Changes present..."
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
