@@ -59,6 +59,9 @@ jobs:
         run: |
           PR_EXISTS=$(gh pr list --head upstream-main --state open --json number -q '.[0].number')
 
+          gh auth status
+          git branch -r
+
           if [ -z "$PR_EXISTS" ]; then
             echo "Creating pull request..."
             gh pr create \
