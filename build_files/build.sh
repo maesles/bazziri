@@ -33,7 +33,7 @@ dnf5 -y install \
 
 # vesktop (special handling needed since it installs in /opt normally)
 curl -L -o vesktop.rpm https://vencord.dev/download/vesktop/amd64/rpm
-rpm -ivh --prefix=/usr/lib/vesktop ./vesktop.rpm      # install in special prefix
+rpm -ivh --nosignature --prefix=/usr/lib/vesktop ./vesktop.rpm      # install in special prefix
 cp /ctx/99-vesktop-tmpfiles.conf /usr/lib/tmpfiles.d/ # use tmpfiles to create symlinks to proper files in special prefix
 
 ## fixup vesktop since the scripts hardcodes paths to /opt
