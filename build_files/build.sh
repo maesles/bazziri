@@ -10,8 +10,22 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # enable various repos
-sed -i 's/enabled=0/enabled=1/' /etc/yum.repos.d/terra.repo # enable terra repo
 rpm --import https://repo.cider.sh/RPM-GPG-KEY              # install cider repo key
+tee /etc/yum.repos.d/terra.repo <<'EOF'
+[terra]
+name=Terra $releasever
+#baseurl=https://repos.fyralabs.com/terra$releasever
+metalink=https://tetsudou.fyralabs.com/metalink?repo=terra$releasever&arch=$basearch
+metadata_expire=6h
+type=rpm
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-terra$releasever
+# Terra currently uses a CDN based on the origin repo, so this is safe
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+countme=1
+EOF
 tee /etc/yum.repos.d/cider.repo <<'EOF'                     # install cider
 [cidercollective]
 name=Cider Collective Repository
