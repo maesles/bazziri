@@ -11,7 +11,7 @@ set -ouex pipefail
 
 # enable various repos
 rpm --import https://repo.cider.sh/RPM-GPG-KEY              # install cider repo key
-dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+dnf config-manager setopt terra.enabled=1
 tee /etc/yum.repos.d/cider.repo <<'EOF'                     # install cider
 [cidercollective]
 name=Cider Collective Repository
