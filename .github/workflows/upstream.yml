@@ -1,0 +1,75 @@
+---
+name: Pull upstream for merge
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # Daily at 07:00 UTC
+  workflow_dispatch:
+
+env:
+  UPSTREAM_REPO: "https://github.com/ublue-os/image-template.git"
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout downstream repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PERSONAL_TOKEN }}
+
+      - name: Configure upstream
+        id: configure_upstream
+        run: |
+          # Upstream remote
+          git remote add upstream "${UPSTREAM_REPO}"
+          git fetch upstream main
+
+          # Configure git author
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Create or update sync branch
+        id: sync_branch
+        run: |
+          git checkout -b upstream-main upstream/main
+
+          git push origin upstream-main --force
+
+          git checkout main
+          # Condition seems inverted but if checks for 0 and git diff emits 1 when there is a diff
+          if ! git diff --quiet main..upstream-main; then
+            echo "Changes present..."
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes, done."
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upsert pull request
+        if: steps.sync_branch.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        run: |
+          PR_EXISTS=$(gh pr list --head upstream-main --state open --json number -q '.[0].number')
+
+          gh auth status
+          git branch -r
+
+          if [ -z "$PR_EXISTS" ]; then
+            echo "Creating pull request..."
+            gh pr create \
+              --repo "maesles/bazziri" \
+              --title "[actions] Sync upstream" \
+              --body "Automated PR to sync upstream changes" \
+              --base main \
+              --head upstream-main
+          else
+            echo "Updated pull request."
+          fi
